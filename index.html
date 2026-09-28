@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Workshop Interest Survey | Uplift</title>
+  <meta name="description" content="Tell us what you would like to hear, learn, and practice in future workshops.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#3d3d3d;--blue:#2c5f7c;--teal:#5ba6bc;--gold:#d5ae6d;--yellow:#fff2a9;--cream:#fff9e9;--pale:#e8f4f8;--focus:#0a6285}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:radial-gradient(circle at 50% 10%,#fffdf5 0,#fff8e6 52%,#fff4d8 100%);color:var(--ink);font:16px/1.65 "Open Sans",Arial,sans-serif}
+    .shell{max-width:790px;margin:24px auto 48px;background:#fffdf7;border:3px solid var(--gold);border-radius:19px;box-shadow:0 12px 35px rgba(62,73,61,.12);overflow:hidden}
+    .hero{position:relative;background:linear-gradient(120deg,#2c5f7c,#59a5b9);color:#fff;text-align:center;padding:50px 28px 65px}
+    .hero:after{content:"";position:absolute;bottom:-1px;left:-2%;width:104%;height:25px;background:#fffdf7;border-radius:50% 50% 0 0/100% 100% 0 0}
+    .eyebrow{font-size:.78rem;letter-spacing:.17em;text-transform:uppercase;font-weight:700;color:#d9eff2;margin:0 0 5px}
+    h1{font:normal clamp(2.5rem,6vw,3.5rem)/1.06 "Patrick Hand",cursive;color:#fff;margin:0;text-shadow:0 2px 3px rgba(0,0,0,.2)}
+    .hero p:last-child{margin:14px auto 0;max-width:560px;font-size:1.12rem}
+    .intro{padding:25px 30px 30px;background:linear-gradient(#fffdf7,#fff2b8);border-bottom:2px dashed var(--gold)}
+    .intro p{margin:0 0 15px}
+    form{padding:0 30px 30px}
+    fieldset{border:0;border-bottom:2px dashed #e6c991;margin:0;padding:30px 0 32px;min-width:0}
+    fieldset:last-of-type{border-bottom:0}
+    legend{padding:0;width:100%}
+    .section-heading{display:flex;align-items:center;gap:14px;padding-top:12px;color:var(--blue);font:normal 1.8rem/1.2 "Patrick Hand",cursive}
+    .number{display:inline-grid;place-items:center;flex:none;width:43px;height:43px;border-radius:50%;background:#ffdb42;border:2px solid var(--gold);box-shadow:0 2px 0 rgba(74,62,31,.22);font:700 1.05rem "Open Sans",sans-serif}
+    .hint{margin:8px 0 20px 57px;color:#646464;font:italic .98rem Georgia,serif}
+    .prompt{font-weight:700;margin:20px 0 9px}
+    .choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px 17px}
+    .choice-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .choice{display:flex;align-items:flex-start;gap:9px;cursor:pointer;padding:10px 11px;border:1px solid #e5d3b2;border-radius:10px;background:#fff;line-height:1.4;min-height:48px;transition:border-color .18s,background .18s,box-shadow .18s}
+    .choice:hover{border-color:var(--teal);background:#f7fcfd}
+    .choice:has(input:checked){border-color:var(--teal);background:#eaf7f8;box-shadow:inset 0 0 0 1px var(--teal)}
+    input[type="checkbox"],input[type="radio"]{accent-color:var(--blue);width:18px;height:18px;flex:none;margin:1px 0 0}
+    label.inline{display:block;font-weight:700;margin:18px 0 7px}
+    input[type="text"],textarea{display:block;width:100%;font:inherit;color:var(--ink);background:#fff;border:2px solid #d2ae78;border-radius:10px;padding:12px 14px;outline:0}
+    textarea{resize:vertical;min-height:105px}
+    .illustrated-answer{display:grid;grid-template-columns:minmax(0,1fr) 175px;gap:20px;align-items:center}
+    .illustrated-answer>div{min-width:0}
+    .section-art{display:block;width:100%;height:auto;object-fit:contain;justify-self:center}
+    .section-art.heart{max-width:140px;max-height:205px}
+    input[type="text"]:focus,textarea:focus,.choice:focus-within{border-color:var(--focus);box-shadow:0 0 0 3px rgba(10,98,133,.18)}
+    .actions{text-align:center;padding:10px 0 8px}
+    button{border:0;border-radius:12px;background:linear-gradient(120deg,#2c5f7c,#4e9ab1);color:#fff;cursor:pointer;padding:13px 43px;font:normal 1.6rem "Patrick Hand",cursive;box-shadow:0 6px 20px rgba(44,95,124,.3)}
+    button:hover{filter:brightness(1.06)}
+    button:focus-visible,a:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+    .footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:16px 30px;background:#f8edcf;color:#435762;font-size:.8rem}
+    @media(max-width:640px){.shell{margin:0;border:0;border-radius:0}.hero{padding:43px 18px 58px}.intro{padding:22px 20px}form{padding:0 20px 25px}.choice-grid,.choice-grid.three{grid-template-columns:1fr}.illustrated-answer{grid-template-columns:1fr}.section-art{max-width:175px;margin:0 auto}.hint{margin-left:0}.section-heading{font-size:1.65rem}.footer{padding:16px 20px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.choice{transition:none}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <p class="eyebrow">Uplift · Your voice shapes what comes next</p>
+      <h1>Workshop Interest Survey</h1>
+      <p>Tell us what you would like to hear, learn, and practice.</p>
+    </header>
+    <div class="intro">
+      <p>We are planning future workshops and would love your ideas. There are no right or wrong answers. Please take your time and skip any question you do not want to answer.</p>
+    </div>
+
+    <form id="workshopForm" action="https://formsubmit.co/ivannestserav.msw@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="Uplift workshop interest survey response">
+      <input type="hidden" name="_template" value="table">
+      <fieldset>
+        <legend><span class="section-heading"><span class="number">1</span><span>What topics interest you most?</span></span></legend>
+        <p class="hint">Select any that interest you. You can add your own idea below.</p>
+        <div class="choice-grid" id="topics">
+          <label class="choice"><input type="checkbox" name="Topics" value="Finding a job or changing careers"><span>Finding a job or changing careers</span></label>
+          <label class="choice"><input type="checkbox" name="Topics" value="English or other language skills"><span>English or other language skills</span></label>
+          <label class="choice"><input type="checkbox" name="Topics" value="Resumes and job interviews"><span>Resumes and job interviews</span></label>
+          <label class="choice"><input type="checkbox" name="Topics" value="Computer, phone, or online skills"><span>Computer, phone, or online skills</span></label>
+          <label class="choice"><input type="checkbox" name="Topics" value="College or training programs"><span>College or training programs</span></label>
+          <label class="choice"><input type="checkbox" name="Topics" value="Money, budgeting, or benefits"><span>Money, budgeting, or benefits</span></label>
+          <label class="choice"><input type="checkbox" name="Topics" value="Health and managing stress"><span>Health and managing stress</span></label>
+          <label class="choice"><input type="checkbox" name="Topics" value="Housing and community resources"><span>Housing and community resources</span></label>
+          <label class="choice"><input type="checkbox" name="Topics" value="Parenting or family relationships"><span>Parenting or family relationships</span></label>
+          <label class="choice"><input type="checkbox" name="Topics" value="Communication and confidence"><span>Communication and confidence</span></label>
+          <label class="choice"><input type="checkbox" name="Topics" value="Creative arts or culture"><span>Creative arts or culture</span></label>
+          <label class="choice"><input type="checkbox" name="Topics" value="Something else"><span>Something else</span></label>
+        </div>
+        <label class="inline" for="otherTopic">Another topic or a more specific idea (optional)</label>
+        <input id="otherTopic" name="Other topic" type="text" maxlength="180" placeholder="Tell us what you have in mind">
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="section-heading"><span class="number">2</span><span>What would you like to hear about?</span></span></legend>
+        <p class="hint">For example, a question you would like a speaker or instructor to answer.</p>
+        <div class="illustrated-answer">
+          <div><label class="inline" for="hear">Your question or idea (optional)</label><textarea id="hear" name="What I would like to hear about" maxlength="1000" placeholder="I would like to hear about..."></textarea></div>
+          <img class="section-art" src="https://ivannestserav.github.io/Uplift/img_writing.png" width="1536" height="1024" loading="lazy" decoding="async" alt="Illustration of a person writing">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="section-heading"><span class="number">3</span><span>What would you like to learn or practice?</span></span></legend>
+        <p class="hint">Think about a skill you could try during a workshop.</p>
+        <label class="inline" for="practice">Your answer (optional)</label>
+        <textarea id="practice" name="What I would like to learn or practice" maxlength="1000" placeholder="I would like to practice..."></textarea>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="section-heading"><span class="number">4</span><span>How do you prefer to participate?</span></span></legend>
+        <p class="hint">Choose all that sound helpful.</p>
+        <div class="choice-grid three">
+          <label class="choice"><input type="checkbox" name="Ways to participate" value="Listen to a speaker"><span>Listen to a speaker</span></label>
+          <label class="choice"><input type="checkbox" name="Ways to participate" value="Ask questions"><span>Ask questions</span></label>
+          <label class="choice"><input type="checkbox" name="Ways to participate" value="Hands-on practice"><span>Hands-on practice</span></label>
+          <label class="choice"><input type="checkbox" name="Ways to participate" value="Small-group discussion"><span>Small-group discussion</span></label>
+          <label class="choice"><input type="checkbox" name="Ways to participate" value="One-on-one help"><span>One-on-one help</span></label>
+          <label class="choice"><input type="checkbox" name="Ways to participate" value="Online workshop"><span>Online workshop</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="section-heading"><span class="number">5</span><span>What would make a workshop easier to attend?</span></span></legend>
+        <p class="hint">Your preferences help us plan a useful time and format.</p>
+        <p class="prompt" id="durationLabel">Preferred length (optional)</p>
+        <div class="choice-grid" role="group" aria-labelledby="durationLabel">
+          <label class="choice"><input type="radio" name="Preferred length" value="30 minutes"><span>30 minutes</span></label>
+          <label class="choice"><input type="radio" name="Preferred length" value="60 minutes"><span>60 minutes</span></label>
+          <label class="choice"><input type="radio" name="Preferred length" value="90 minutes"><span>90 minutes</span></label>
+          <label class="choice"><input type="radio" name="Preferred length" value="No preference"><span>No preference</span></label>
+        </div>
+        <label class="inline" for="when">Best day or time (optional)</label>
+        <input id="when" name="Best day or time" type="text" maxlength="150" placeholder="For example, weekday evening">
+        <label class="inline" for="needs">Language, access, or other needs (optional)</label>
+        <input id="needs" name="Language access or other needs" type="text" maxlength="250" placeholder="Anything that would help you take part">
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="section-heading"><span class="number">6</span><span>Anything else you would like us to know?</span></span></legend>
+        <p class="hint">Your ideas can help shape a future workshop.</p>
+        <div class="illustrated-answer">
+          <div><label class="inline" for="anything">Your thoughts (optional)</label><textarea id="anything" name="Anything else" maxlength="1000" placeholder="Share another idea here..."></textarea></div>
+          <img class="section-art heart" src="https://ivannestserav.github.io/Uplift/img_heart.png" width="1024" height="1536" loading="lazy" decoding="async" alt="Illustration of a person holding a heart">
+        </div>
+      </fieldset>
+
+      <div class="actions">
+        <button type="submit">Send my ideas</button>
+      </div>
+    </form>
+    <footer class="footer"><span>Thank you for helping shape future workshops.</span><span>Ivan Nestserav&nbsp; | &nbsp;1st Ed. 09/2026 ©</span></footer>
+  </main>
+</body>
+</html>
