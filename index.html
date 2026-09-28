@@ -47,6 +47,12 @@
     .actions{text-align:center;padding:10px 0 8px}
     button{border:0;border-radius:12px;background:linear-gradient(120deg,#2c5f7c,#4e9ab1);color:#fff;cursor:pointer;padding:13px 43px;font:normal 1.6rem "Patrick Hand",cursive;box-shadow:0 6px 20px rgba(44,95,124,.3)}
     button:hover{filter:brightness(1.06)}
+    button:disabled{cursor:wait;opacity:.7}
+    .send-error{color:#a33131;font-weight:700;min-height:1.5em;margin:12px auto 0;max-width:530px}
+    .thank-you{min-height:420px;padding:70px 28px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(150deg,#fffdf7,#fff2b8)}
+    .thank-you h1{color:var(--blue);text-shadow:none;margin:0 0 14px}
+    .thank-you p{font-size:1.08rem;max-width:480px;margin:0}
+    [hidden]{display:none!important}
     button:focus-visible,a:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
     .footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:16px 30px;background:#f8edcf;color:#435762;font-size:.8rem}
     @media(max-width:640px){.shell{margin:0;border:0;border-radius:0}.hero{padding:43px 18px 58px}.intro{padding:22px 20px}form{padding:0 20px 25px}.choice-grid,.choice-grid.three{grid-template-columns:1fr}.illustrated-answer{grid-template-columns:1fr}.section-art{max-width:175px;margin:0 auto}.hint{margin-left:0}.section-heading{font-size:1.65rem}.footer{padding:16px 20px}}
@@ -84,7 +90,7 @@
           <label class="choice"><input type="checkbox" name="Topics" value="Creative arts or culture"><span>Creative arts or culture</span></label>
           <label class="choice"><input type="checkbox" name="Topics" value="Something else"><span>Something else</span></label>
         </div>
-        <label class="inline" for="otherTopic">Another topic or a more specific idea (optional)</label>
+        <label class="inline" for="otherTopic">If you chose “Something else,” what topic do you have in mind? (optional)</label>
         <input id="otherTopic" name="Other topic" type="text" maxlength="180" placeholder="Tell us what you have in mind">
       </fieldset>
 
@@ -144,9 +150,78 @@
 
       <div class="actions">
         <button type="submit">Send my ideas</button>
+        <p id="sendError" class="send-error" role="alert" aria-live="polite"></p>
       </div>
     </form>
     <footer class="footer"><span>Thank you for helping shape future workshops.</span><span>Ivan Nestserav&nbsp; | &nbsp;1st Ed. 09/2026 ©</span></footer>
+    <section id="thankYou" class="thank-you" tabindex="-1" hidden>
+      <h1>Thank you for participating!</h1>
+      <p>Your ideas will help shape future workshops.</p>
+    </section>
   </main>
+  <script>
+    function buildSubmission(formData) {
+      const one = (name) => String(formData.get(name) || '').trim();
+      const many = (name) => formData.getAll(name).map(value => String(value).trim()).filter(Boolean);
+      const topicChoices = many('Topics');
+      const topics = topicChoices.filter(value => value !== 'Something else');
+      const otherTopic = one('Other topic');
+      if (otherTopic) topics.push('Something else: ' + otherTopic);
+      else if (topicChoices.includes('Something else')) topics.push('Something else (no detail entered)');
+      const shown = (value) => value || '(not answered)';
+
+      return {
+        _subject: 'Uplift workshop interest survey response',
+        _template: 'table',
+        'Topics of interest': shown(topics.join('; ')),
+        'What they would like to hear about': shown(one('What I would like to hear about')),
+        'What they would like to learn or practice': shown(one('What I would like to learn or practice')),
+        'Ways to participate': shown(many('Ways to participate').join('; ')),
+        'Preferred length': shown(one('Preferred length')),
+        'Best day or time': shown(one('Best day or time')),
+        'Language, access, or other needs': shown(one('Language access or other needs')),
+        'Anything else': shown(one('Anything else'))
+      };
+    }
+
+    const form = document.getElementById('workshopForm');
+    const sendButton = form.querySelector('button[type="submit"]');
+    const sendError = document.getElementById('sendError');
+    const otherTopicInput = document.getElementById('otherTopic');
+    const otherTopicChoice = form.querySelector('input[name="Topics"][value="Something else"]');
+    otherTopicInput.addEventListener('input', () => {
+      if (otherTopicInput.value.trim()) otherTopicChoice.checked = true;
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      sendError.textContent = '';
+      sendButton.disabled = true;
+      sendButton.textContent = 'Sending...';
+
+      const answers = buildSubmission(new FormData(form));
+
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/ivannestserav.msw@gmail.com', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+          body: JSON.stringify(answers)
+        });
+        const result = await response.json();
+        if (!response.ok || result.success === false || result.success === 'false') {
+          throw new Error('The form service did not confirm the submission.');
+        }
+        const thankYou = document.getElementById('thankYou');
+        document.querySelector('.shell').replaceChildren(thankYou);
+        thankYou.hidden = false;
+        thankYou.focus();
+        window.scrollTo(0, 0);
+      } catch (error) {
+        sendError.textContent = 'Your answers could not be sent. Please try again.';
+        sendButton.disabled = false;
+        sendButton.textContent = 'Send my ideas';
+      }
+    });
+  </script>
 </body>
 </html>
